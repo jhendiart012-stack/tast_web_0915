@@ -1,133 +1,618 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 台南行地點綜覽</title>
+    <title>2026 台南行四天三夜行程安排</title>
     <style>
+        /* === 低彩度陶磚紅 ✕ 深木質感配色系統 === */
         :root {
-            --primary-color: #c15c3d;
-            --bg-color: #f9f7f4;
-            --card-bg: #ffffff;
-            --text-main: #2b2b2b;
-            --text-sub: #666666;
-            --border-color: #e2ded8;
+            /* 明亮模式：低飽和陶磚紅、深木色、暖白底 */
+            --brick-main: #964f3c;      /* 沉穩低彩度磚紅 */
+            --brick-hover: #7e3e2d;     /* 深焙磚紅 */
+            --brick-soft: #f2e7e2;      /* 柔和磚紅淺底 */
+            --brick-border: #d8bebe;    /* 柔化磚色邊框 */
+
+            --wood-dark: #3a271d;       /* 深沉木褐 */
+            --wood-muted: #6b5548;      /* 溫和木質茶棕 */
+            --wood-tint: #eae3da;       /* 淺木色 */
+
+            --bg-page: #f6f3ee;         /* 溫潤亞麻灰白 */
+            --card-bg: #fdfbf8;         /* 暖白卡片底色 */
+            --card-border: #ded5cb;     /* 溫和分隔線 */
+
+            --text-title: #2b1c15;      /* 沉穩標題黑褐 */
+            --text-main: #3b3028;       /* 正文深色 */
+            --text-sub: #78685d;        /* 次要說明文字 */
+
+            --time-bg: #f0e6e1;         /* 時間側欄：柔淡磚木灰粉 */
+            --time-border: #e3d2cb;
+            --time-text: #783827;       /* 時間文字：深磚紅 */
+
+            --badge-gift-bg: #f5ebe6;
+            --badge-gift-border: #dfc8c0;
+            --badge-gift-text: #823e2d;
+
+            --note-fixed-bg: #f2ede6;
+            --note-fixed-border: #964f3c;
+            --note-input-bg: #ffffff;
+
+            --modal-bg: #fdfbf8;
+            --shadow-sm: 0 2px 8px rgba(58, 39, 29, 0.05);
+            --shadow-md: 0 8px 24px rgba(58, 39, 29, 0.09);
+            --radius: 10px;
+        }
+
+        [data-theme="dark"] {
+            /* 夜間模式：深邃炭木、洗鍊陶磚、低眩光沉香調 */
+            --brick-main: #ba6d59;
+            --brick-hover: #cf7e68;
+            --brick-soft: #30201c;
+            --brick-border: #52352d;
+
+            --wood-dark: #eee0d5;
+            --wood-muted: #b09c8f;
+            --wood-tint: #231b17;
+
+            --bg-page: #171311;
+            --card-bg: #221b18;         /* 夜間溫暖暗木底 */
+            --card-border: #382c26;
+
+            --text-title: #f5ede6;
+            --text-main: #e0d5cd;
+            --text-sub: #a19286;
+
+            --time-bg: #2d201c;
+            --time-border: #442f28;
+            --time-text: #d98f7c;
+
+            --badge-gift-bg: #35231e;
+            --badge-gift-border: #573a32;
+            --badge-gift-text: #e09d8c;
+
+            --note-fixed-bg: #1c1512;
+            --note-fixed-border: #ba6d59;
+            --note-input-bg: #181310;
+
+            --modal-bg: #221b18;
+            --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.35);
+            --shadow-md: 0 8px 26px rgba(0, 0, 0, 0.55);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            transition: background-color 0.22s ease, border-color 0.22s ease, color 0.18s ease;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-color);
+            /* 全面使用繁體中文無襯線黑體 */
+            font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+            background-color: var(--bg-page);
             color: var(--text-main);
             line-height: 1.6;
-            padding: 24px 16px;
+            padding: 20px 16px 70px;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 960px;
             margin: 0 auto;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 28px;
+        /* 頂部導航：夜間切換 */
+        .top-navbar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 12px;
         }
 
-        header h1 {
-            font-size: 1.8rem;
-            color: var(--primary-color);
+        .theme-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-toggle-btn:hover {
+            border-color: var(--brick-main);
+            color: var(--brick-main);
+        }
+
+        /* === 重新設計之黑體風格視覺標題（凸顯、大器、不突兀） === */
+        .hero-banner {
+            text-align: center;
+            padding: 24px 20px 22px;
+            margin-bottom: 24px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 4px solid var(--brick-main); /* 沉穩磚紅頂部重點線 */
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--brick-main);
+            background-color: var(--brick-soft);
+            padding: 3px 12px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .hero-main-title {
+            font-size: 2.05rem;
+            font-weight: 800;
+            color: var(--text-title);
+            letter-spacing: 1px;
+            line-height: 1.3;
             margin-bottom: 8px;
         }
 
-        header p {
-            color: var(--text-sub);
-            font-size: 0.95rem;
+        .hero-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 10px 0;
         }
 
-        .table-wrapper {
+        .divider-line {
+            width: 44px;
+            height: 2px;
+            background-color: var(--brick-main);
+            opacity: 0.5;
+            border-radius: 1px;
+        }
+
+        .divider-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: var(--brick-main);
+        }
+
+        .hero-sub-title {
+            font-size: 0.94rem;
+            color: var(--text-sub);
+            letter-spacing: 0.4px;
+        }
+
+        /* 控制列：Tab 切換與 Markdown 匯出 */
+        .controls-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+            background-color: var(--wood-tint);
+            border: 1px solid var(--card-border);
+            padding: 7px 9px;
+            border-radius: var(--radius);
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tab-btn {
+            background-color: transparent;
+            border: none;
+            outline: none;
+            padding: 8px 18px;
+            font-size: 0.93rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            border-radius: 7px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .tab-btn:hover {
+            color: var(--brick-main);
+            background-color: rgba(255, 255, 255, 0.55);
+        }
+
+        .tab-btn.active {
             background-color: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border-color);
+            color: var(--brick-main);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-export {
+            background-color: var(--brick-main);
+            color: #ffffff;
+            border: none;
+            outline: none;
+            padding: 8px 16px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border-radius: 7px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-export:hover {
+            background-color: var(--brick-hover);
+        }
+
+        /* 日程內容區塊 */
+        .schedule-tab-content {
+            display: none;
+        }
+
+        .schedule-tab-content.active {
+            display: block;
+        }
+
+        .cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* 行程卡片：暖白底色、俐落黑體排版 */
+        .card {
+            display: flex;
+            align-items: stretch;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-sm);
             overflow: hidden;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
+        .card:hover {
+            border-color: var(--brick-main);
+            box-shadow: var(--shadow-md);
         }
 
-        th, td {
-            padding: 14px 18px;
+        /* 左側時間欄位（垂直 100% 滿高，沉穩淡磚灰粉） */
+        .time-sidebar {
+            width: 135px;
+            min-width: 135px;
+            background-color: var(--time-bg);
+            color: var(--time-text);
+            border-right: 1px solid var(--time-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 10px;
+            text-align: center;
+            user-select: none;
         }
 
-        th {
-            background-color: #f1ede7;
+        .time-text {
+            font-weight: 800;
+            font-size: 1.05rem;
+            line-height: 1.35;
+            letter-spacing: 0.3px;
+        }
+
+        .time-flex-label {
+            font-size: 0.82rem;
+            color: var(--time-text);
             font-weight: 600;
-            color: #444;
-            border-bottom: 1px solid var(--border-color);
+            opacity: 0.85;
         }
 
-        tr:not(:last-child) td {
-            border-bottom: 1px solid #f0eee9;
+        /* 右側主要內容 */
+        .card-body {
+            flex: 1;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            min-width: 0;
         }
 
-        tr:hover td {
-            background-color: #faf8f5;
+        /* 標題與地圖跳轉橫列 */
+        .card-header-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
         }
 
-        .badge {
-            display: inline-block;
-            padding: 3px 8px;
-            font-size: 0.75rem;
-            border-radius: 4px;
-            font-weight: 500;
-            background-color: #f0e6df;
-            color: var(--primary-color);
+        .place-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-title);
+            line-height: 1.35;
         }
 
-        .place-name {
-            font-weight: 600;
-            display: block;
-            margin-bottom: 2px;
-        }
-
-        .place-address {
-            color: var(--text-sub);
-            font-size: 0.9rem;
-        }
-
-        .map-btn {
+        /* Google Maps 跳轉按鈕（低彩度磚紅框線） */
+        .map-jump-btn {
             display: inline-flex;
             align-items: center;
-            padding: 6px 12px;
-            font-size: 0.85rem;
-            text-decoration: none;
-            background-color: #ffffff;
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
+            gap: 4px;
+            background-color: transparent;
+            color: var(--brick-main);
+            border: 1px solid var(--brick-main);
+            padding: 4px 10px;
             border-radius: 6px;
-            transition: all 0.2s ease;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-decoration: none;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
-        .map-btn:hover {
-            background-color: var(--primary-color);
+        .map-jump-btn:hover {
+            background-color: var(--brick-main);
             color: #ffffff;
         }
 
-        @media (max-width: 600px) {
-            th, td {
-                padding: 12px;
+        /* 地點介紹 */
+        .info-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: 0.92rem;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .info-label {
+            color: var(--text-sub);
+            font-weight: 700;
+            font-size: 0.85rem;
+            min-width: 68px;
+            flex-shrink: 0;
+        }
+
+        .info-val {
+            color: var(--text-main);
+            flex: 1;
+        }
+
+        /* 伴手禮標籤 */
+        .souvenir-tag-box {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--badge-gift-bg);
+            color: var(--badge-gift-text);
+            border: 1px solid var(--badge-gift-border);
+            padding: 2px 9px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            width: fit-content;
+        }
+
+        /* 行程原定備註 */
+        .orig-note-box {
+            background-color: var(--note-fixed-bg);
+            border-left: 3px solid var(--brick-main);
+            padding: 6px 12px;
+            font-size: 0.88rem;
+            color: var(--text-main);
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* 臨時筆記撰寫區 */
+        .temp-note-row {
+            margin-top: 3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--note-input-bg);
+            border: 1px dashed var(--card-border);
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        .temp-note-label {
+            color: var(--text-sub);
+            font-weight: 700;
+            font-size: 0.83rem;
+            min-width: 65px;
+            flex-shrink: 0;
+        }
+
+        .temp-note-input {
+            flex: 1;
+            border: 1px solid transparent;
+            background: transparent;
+            font-size: 0.88rem;
+            font-family: inherit;
+            color: var(--text-main);
+            padding: 4px 6px;
+            border-radius: 4px;
+        }
+
+        .temp-note-input:focus {
+            outline: none;
+            border-color: var(--brick-main);
+            background-color: var(--card-bg);
+        }
+
+        /* Modal 彈窗 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(22, 16, 13, 0.62);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-card {
+            background-color: var(--modal-bg);
+            border-radius: var(--radius);
+            max-width: 740px;
+            width: 100%;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-md);
+        }
+
+        .modal-header {
+            padding: 15px 18px;
+            background-color: var(--wood-tint);
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.1rem;
+            color: var(--text-title);
+            font-weight: 800;
+        }
+
+        .modal-close-btn {
+            background: none;
+            border: none;
+            font-size: 1.35rem;
+            cursor: pointer;
+            color: var(--text-sub);
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 16px 18px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .markdown-textarea {
+            width: 100%;
+            height: 330px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 0.88rem;
+            line-height: 1.55;
+            padding: 12px;
+            border: 1px solid var(--card-border);
+            border-radius: 7px;
+            background-color: var(--note-input-bg);
+            color: var(--text-main);
+            resize: vertical;
+        }
+
+        .modal-footer {
+            padding: 12px 18px;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            background-color: var(--wood-tint);
+        }
+
+        .btn-secondary {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            padding: 7px 15px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--brick-main);
+            color: var(--brick-main);
+        }
+
+        .copy-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(28, 20, 17, 0.92);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            z-index: 1100;
+        }
+
+        .copy-toast.show {
+            opacity: 1;
+        }
+
+        /* 手機適配 */
+        @media (max-width: 640px) {
+            .hero-main-title {
+                font-size: 1.6rem;
             }
-            .hide-on-mobile {
-                display: none;
+            .controls-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .tabs {
+                justify-content: space-between;
+            }
+            .tab-btn {
+                flex: 1;
+                text-align: center;
+                padding: 7px 3px;
+                font-size: 0.82rem;
+            }
+            .btn-export {
+                text-align: center;
+            }
+            .time-sidebar {
+                width: 90px;
+                min-width: 90px;
+                padding: 12px 6px;
+            }
+            .time-text {
+                font-size: 0.85rem;
+            }
+            .card-body {
+                padding: 13px;
+            }
+            .card-header-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            .place-title {
+                font-size: 1.05rem;
+            }
+            .map-jump-btn {
+                align-self: flex-start;
             }
         }
     </style>
@@ -135,106 +620,765 @@
 <body>
 
 <div class="container">
-    <header>
-        <h1>🏛️ 台南行行程地點綜覽</h1>
-        <p>行程共收錄 8 個景點、美食與旅宿地點</p>
+    <!-- 深淺模式切換 -->
+    <div class="top-navbar">
+        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="切換模式">
+            <span id="themeIcon">☀️</span>
+            <span id="themeLabel">明亮模式</span>
+        </button>
+    </div>
+
+    <!-- 重新設計之視覺標題卡（黑體、磚紅重點線、精緻幾何對稱） -->
+    <header class="hero-banner">
+        <div class="hero-tag">TAINAN TRIP 2026</div>
+        <h1 class="hero-main-title">2026 台南慢步・四天三夜遊程</h1>
+        <div class="hero-divider">
+            <span class="divider-line"></span>
+            <span class="divider-dot"></span>
+            <span class="divider-line"></span>
+        </div>
+        <p class="hero-sub-title">老屋老街・古蹟選書・海風夕陽｜點選日程切換每日排程</p>
     </header>
 
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>地點名稱</th>
-                    <th>地址</th>
-                    <th class="hide-on-mobile">分類</th>
-                    <th style="text-align: center;">地圖</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <span class="place-name">修安扁擔豆花 Xiu'an Douhua</span>
-                    </td>
-                    <td><span class="place-address">臺南市中西區國華街三段157號</span></td>
-                    <td class="hide-on-mobile"><span class="badge">美食小吃</span></td>
-                    <td style="text-align: center;">
-                        <a href="https://www.google.com/maps/place/%E4%BF%AE%E5%AE%89%E6%89%81%E6%93%94%E8%B1%86%E8%8A%B1+Xiu'an+Douhua/data=!4m2!3m1!1s0x346e7666a8ef48d9:0xc76f3b24d1e5c944" target="_blank" class="map-btn">開啟導航</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="place-name">台南一味品碗粿魚羹</span>
-                    </td>
-                    <td><span class="place-address">臺南市中西區國華街三段177號</span></td>
-                    <td class="hide-on-mobile"><span class="badge">美食小吃</span></td>
-                    <td style="text-align: center;">
-                        <a href="https://www.google.com/maps/place/%E5%8F%B0%E5%8D%97%E4%B8%80%E5%91%B3%E5%93%81%E7%A2%97%E7%B2%BF%E9%AD%9A%E7%BE%B9/data=!4m2!3m1!1s0x346e7666ae3aab3d:0x244e09eae45183f" target="_blank" class="map-btn">開啟導航</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="place-name">阿美純手工麻糬</span>
-                    </td>
-                    <td><span class="place-address">臺南市中西區民權路三段50號</span></td>
-                    <td class="hide-on-mobile"><span class="badge">甜點伴手禮</span></td>
-                    <td style="text-align: center;">
-                        <a href="https://www.google.com/maps/place/%E9%98%BF%E7%BE%8E%E7%B4%94%E6%89%8B%E5%B7%A5%E9%BA%BB%E7%B3%AC/data=!4m2!3m1!1s0x346e77b4f3f0b931:0xaac21dbb4027799a" target="_blank" class="map-btn">開啟導航</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="place-name">臺南國家美術館</span>
-                    </td>
-                    <td><span class="place-address">臺南市中西區忠義路二段1號</span></td>
-                    <td class="hide-on-mobile"><span class="badge">藝文展館</span></td>
-                    <td style="text-align: center;">
-                        <a href="https://www.google.com/maps/place/%E8%87%BA%E5%8D%97%E5%9C%8B%E5%AE%B6%E7%BE%8E%E8%A1%93%E9%A4%A8/data=!4m2!3m1!1s0x346e77d091f960b1:0xaf5eb6c8c370f30a" target="_blank" class="map-btn">開啟導航</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="place-name">台南林百貨</span>
-                    </td>
-                    <td><span class="place-address">臺南市中西區忠義路二段63號</span></td>
-                    <td class="hide-on-mobile"><span class="badge">歷史古蹟</span></td>
-                    <td style="text-align: center;">
-                        <a href="https://www.google.com/maps/place/%E5%8F%B0%E5%8D%97%E6%9E%97%E7%99%BE%E8%B2%A8/data=!4m2!3m1!1s0x346e7662e05c92ad:0xc3452d88c851706b" target="_blank" class="map-btn">開啟導航</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="place-name">國立臺灣文學館</span>
-                    </td>
-                    <td><span class="place-address">臺南市中西區中正路1號（湯德章大道1號）</span></td>
-                    <td class="hide-on-mobile"><span class="badge">歷史古蹟</span></td>
-                    <td style="text-align: center;">
-                        <a href="https://www.google.com/maps/place/%E5%9C%8B%E7%AB%8B%E8%87%BA%E7%81%A3%E6%96%87%E5%AD%B8%E9%A4%A8+National+Museum+of+Taiwan+Literature/data=!4m2!3m1!1s0x346e7662996cf771:0x4147c569083fbe49" target="_blank" class="map-btn">開啟導航</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="place-name">臺南市美術館（1館）</span>
-                    </td>
-                    <td><span class="place-address">臺南市中西區南門路37號</span></td>
-                    <td class="hide-on-mobile"><span class="badge">藝文展館</span></td>
-                    <td style="text-align: center;">
-                        <a href="https://www.google.com/maps/place/%E8%87%BA%E5%8D%97%E5%B8%82%E7%BE%8E%E8%A1%93%E9%A4%A8/data=!4m2!3m1!1s0x346e767cc3b11bed:0xae220201100c4e66" target="_blank" class="map-btn">開啟導航</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="place-name">明森 公寓 Morn Forest</span>
-                    </td>
-                    <td><span class="place-address">臺南市中西區民生路一段20-1號</span></td>
-                    <td class="hide-on-mobile"><span class="badge">旅宿住宿</span></td>
-                    <td style="text-align: center;">
-                        <a href="https://www.google.com/maps/place/%E6%98%8E%E6%A3%AE+%E5%85%AC%E5%AF%93+Morn+Forest+%E3%80%82+Travel+%E5%8F%B0%E5%8D%97/data=!4m2!3m1!1s0x346e77dbadaaec55:0x9863124765b286f1" target="_blank" class="map-btn">開啟導航</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- 日程分頁與匯出按鈕 -->
+    <div class="controls-bar">
+        <div class="tabs" id="tabButtonsContainer"></div>
+        <button class="btn-export" id="openExportModalBtn">輸出純 Markdown 筆記</button>
+    </div>
+
+    <!-- 每日行程內容區 -->
+    <div id="tabContentsContainer"></div>
+</div>
+
+<!-- Markdown 彈出視窗 -->
+<div class="modal-overlay" id="exportModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>純文字階層式 Markdown 筆記</h3>
+            <button class="modal-close-btn" id="closeExportModalBtn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 8px;">
+                純文字階層式格式，已整合原定備註與您填寫的臨時筆記，完全無任何表情符號與營業時間：
+            </p>
+            <textarea class="markdown-textarea" id="markdownOutputText" readonly></textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" id="downloadMdBtn">下載 .md 檔案</button>
+            <button class="btn-export" id="copyMdBtn">複製 Markdown 內容</button>
+        </div>
     </div>
 </div>
+
+<!-- 提示框 -->
+<div class="copy-toast" id="toastMsg">已複製到剪貼簿！</div>
+
+<script>
+    const itineraryData = [
+  {
+    "day_id": "day1",
+    "day_title": "第一天 (9/16 週三)",
+    "items": [
+      {
+        "time": "06:00",
+        "title": "起床",
+        "desc": "早晨整理裝備準備出發",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      },
+      {
+        "time": "06:50",
+        "title": "中壢出發桃園高鐵站",
+        "desc": "由中壢市區前往高鐵站",
+        "souvenir": "",
+        "orig_note": "騎機車過去",
+        "temp_note": "",
+        "map_query": "高鐵桃園站"
+      },
+      {
+        "time": "08:10 - 09:32",
+        "title": "搭高鐵前往台南",
+        "desc": "搭乘高鐵南下列車直達台南站",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      },
+      {
+        "time": "09:49 - 10:12",
+        "title": "台南高鐵站出發台南市區",
+        "desc": "自沙崙火車站轉乘區間車進市區",
+        "souvenir": "",
+        "orig_note": "搭火車去",
+        "temp_note": "",
+        "map_query": ""
+      },
+      {
+        "time": "10:12",
+        "title": "抵達台南火車站",
+        "desc": "抵達台南車站前站",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "台南火車站"
+      },
+      {
+        "time": "10:40",
+        "title": "去飯店寄放行李",
+        "desc": "前往明森公寓民宿先寄放行李",
+        "souvenir": "",
+        "orig_note": "走路前往(20分鐘)",
+        "temp_note": "",
+        "map_query": "明森 公寓 Morn Forest 。 Travel 台南"
+      },
+      {
+        "time": "11:00 - 12:30",
+        "title": "午餐時間",
+        "desc": "中西區周邊品嚐在地小吃",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      },
+      {
+        "time": "13:00 - 16:00",
+        "title": "台南國立美術館 (慕夏展覽)",
+        "desc": "欣賞捷克藝術家慕夏唯美浪漫畫作特展",
+        "souvenir": "",
+        "orig_note": "18:00閉館",
+        "temp_note": "",
+        "map_query": "臺南國家美術館"
+      },
+      {
+        "time": "16:00 - 18:00",
+        "title": "台南美術館",
+        "desc": "參觀古蹟與當代美學融合之常設與特展",
+        "souvenir": "",
+        "orig_note": "18:00閉館",
+        "temp_note": "",
+        "map_query": "臺南市美術館1館"
+      },
+      {
+        "time": "18:00",
+        "title": "入住 明森 公寓 Morn Forest 。 Travel 台南",
+        "desc": "中西區質感設計公寓辦理入住",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "明森 公寓 Morn Forest 。 Travel 台南"
+      },
+      {
+        "time": "19:00",
+        "title": "晚餐",
+        "desc": "民宿周邊熱門在地晚餐美食",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      },
+      {
+        "time": "20:00",
+        "title": "銀月 (Moonlight Books & Café)",
+        "desc": "伴隨咖啡香與音樂氛圍的選文書店",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "銀月(Moonlight Books & Café) 台南"
+      },
+      {
+        "time": "22:00",
+        "title": "休息",
+        "desc": "返回民宿盥洗與休息充電",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      }
+    ]
+  },
+  {
+    "day_id": "day2",
+    "day_title": "第二天 (9/17 週四)",
+    "items": [
+      {
+        "time": "07:00",
+        "title": "起床",
+        "desc": "早晨起床準備展開老街巡禮",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      },
+      {
+        "time": "08:00",
+        "title": "租機車 (騎士派)",
+        "desc": "台南火車站前站旁機車租賃，取車出發",
+        "souvenir": "",
+        "orig_note": "地點：騎士派 (台南市北區北門路二段47號)",
+        "temp_note": "",
+        "map_query": "騎士派機車出租 台南市北區北門路二段47號"
+      },
+      {
+        "time": "08:00 - 15:00",
+        "title": "阿美純手工麻糬",
+        "desc": "水仙宮市場旁古早味手工香Q麻糬",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "阿美純手工麻糬 台南市中西區民權路三段50號"
+      },
+      {
+        "time": "08:00 - 15:00",
+        "title": "台南一味品碗粿魚羹",
+        "desc": "國華街必比登推薦傳統手工古早味",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "台南一味品碗粿魚羹 台南市中西區國華街三段177號"
+      },
+      {
+        "time": "08:00 - 15:00",
+        "title": "修安扁擔豆花 Xiu'an Douhua",
+        "desc": "傳統古法手工豆花與招牌粉粿冰品",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "修安扁擔豆花 台南市中西區國華街三段157號"
+      },
+      {
+        "time": "08:00 - 15:00",
+        "title": "神農街",
+        "desc": "漫步清代與日治古厝保留最完整的文創街",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "神農街 台南"
+      },
+      {
+        "time": "08:00 - 15:00",
+        "title": "五條港行號",
+        "desc": "神農街特色質感文創選物小鋪",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "五條港行號 台南"
+      },
+      {
+        "time": "08:00 - 15:00",
+        "title": "城南舊肆",
+        "desc": "沉靜通透木質書香之美感二手書店",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "城南舊肆 台南"
+      },
+      {
+        "time": "08:00 - 15:00",
+        "title": "烏邦圖書店_環河店",
+        "desc": "運河畔採光極佳之純白親水景觀書店",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "烏邦圖書店 環河店"
+      },
+      {
+        "time": "15:00 - 15:30",
+        "title": "出發安南區",
+        "desc": "騎機車前往安南區古蹟聖地",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      },
+      {
+        "time": "15:30 - 17:00",
+        "title": "天后宮",
+        "desc": "歷史悠久、香火鼎盛之媽祖開基廟宇",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "台南 鹿耳門天后宮"
+      },
+      {
+        "time": "17:00 - 17:30",
+        "title": "回市區(住的附近)吃晚餐",
+        "desc": "騎車返回市區民宿周邊準備用餐",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      },
+      {
+        "time": "17:30 - 19:00",
+        "title": "晚餐",
+        "desc": "享用府城道地晚膳風味餐點",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      },
+      {
+        "time": "19:00",
+        "title": "呱找子倫",
+        "desc": "與在地好友碰面歡聚暢聊",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      },
+      {
+        "time": "22:00",
+        "title": "休息",
+        "desc": "返回公寓民宿休息放鬆",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      }
+    ]
+  },
+  {
+    "day_id": "day3",
+    "day_title": "第三天 (9/18 週五)",
+    "items": [
+      {
+        "time": "09:00",
+        "title": "起床",
+        "desc": "自然醒後迎接文青咖啡與海灣日",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      },
+      {
+        "time": "10:00",
+        "title": "早午餐",
+        "desc": "享用台南人氣美味早午餐拼盤",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      },
+      {
+        "time": "12:00",
+        "title": "林檎二手書室",
+        "desc": "昭和日系雜貨風格之溫暖二手舊書店",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "林檎二手書室 台南"
+      },
+      {
+        "time": "14:00",
+        "title": "裏厝Home Vibes Coffee",
+        "desc": "隱身巷弄之老宅自家烘焙手沖咖啡店",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "裏厝Home Vibes Coffee 台南"
+      },
+      {
+        "time": "15:00 - 17:00",
+        "title": "逛逛安平區",
+        "desc": "漫步安平古堡老街與紅磚劍獅歷史聚落",
+        "souvenir": "明新食品 安平店",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "明新食品 安平店 台南市安平區"
+      },
+      {
+        "time": "17:00 - 17:30",
+        "title": "漁光島",
+        "desc": "漫步防風林木棧道通往月牙灣沙灘",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "漁光島 台南"
+      },
+      {
+        "time": "17:30 - 18:30",
+        "title": "看夕陽",
+        "desc": "靜候落日染紅安平外海金黃天際線",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "漁光島沙灘 台南"
+      },
+      {
+        "time": "19:00 - 21:00",
+        "title": "大東夜市",
+        "desc": "匯聚眾多府城招牌排隊小吃",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "大東夜市 台南"
+      },
+      {
+        "time": "22:00",
+        "title": "休息",
+        "desc": "飽足返回民宿整理與休息",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      }
+    ]
+  },
+  {
+    "day_id": "day4",
+    "day_title": "第四天 (9/19 週六)",
+    "items": [
+      {
+        "time": "08:00",
+        "title": "起床",
+        "desc": "收拾行囊打包行李準備退房",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      },
+      {
+        "time": "09:00",
+        "title": "吃早餐",
+        "desc": "品嚐道地肉燥飯或現滾牛肉湯早餐",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      },
+      {
+        "time": "10:00",
+        "title": "大師兄手工蛋捲",
+        "desc": "酥脆濃郁的手工蛋捲與知名伴手禮名店",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "大師兄手工蛋捲 台南"
+      },
+      {
+        "time": "11:00",
+        "title": "KADOYA喫茶店",
+        "desc": "昭和復古摩登日式洋菓子甜點喫茶店",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "KADOYA喫茶店 台南"
+      },
+      {
+        "time": "12:00",
+        "title": "退房",
+        "desc": "明森公寓辦理退房，行李先行寄放",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "明森 公寓 Morn Forest 。 Travel 台南"
+      },
+      {
+        "time": "14:00 - 16:00",
+        "title": "林百貨",
+        "desc": "造訪五層樓仔古蹟、指針電梯與頂樓鳥居",
+        "souvenir": "",
+        "orig_note": "逛完直接回民宿拿行李",
+        "temp_note": "",
+        "map_query": "台南林百貨"
+      },
+      {
+        "time": "16:30",
+        "title": "騎車去加油",
+        "desc": "機車加油準備辦理歸還",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "中油加油站 台南火車站附近"
+      },
+      {
+        "time": "16:45",
+        "title": "騎士派-還機車",
+        "desc": "台南火車站前站歸還租借機車",
+        "souvenir": "",
+        "orig_note": "地點：騎士派 (台南市北區北門路二段47號) / 22:00打烊",
+        "temp_note": "",
+        "map_query": "騎士派機車出租 台南市北區北門路二段47號"
+      },
+      {
+        "time": "17:07 - 17:30",
+        "title": "搭火車到高鐵站",
+        "desc": "自台南車站搭乘沙崙線區間車直達高鐵站",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "台南火車站"
+      },
+      {
+        "time": "20:00",
+        "title": "台南高鐵站等車",
+        "desc": "高鐵站內採買晚餐或點心候車",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "高鐵台南站"
+      },
+      {
+        "time": "20:13 - 21:36",
+        "title": "台南高鐵回到中壢",
+        "desc": "搭乘北上列車返回桃園站",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      },
+      {
+        "time": "21:50",
+        "title": "牽車回家",
+        "desc": "桃園高鐵站機車停車場取車",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": "高鐵桃園站"
+      },
+      {
+        "time": "22:30",
+        "title": "回到甜蜜的家",
+        "desc": "平安返抵家中，整理行李與回憶",
+        "souvenir": "",
+        "orig_note": "",
+        "temp_note": "",
+        "map_query": ""
+      }
+    ]
+  }
+];
+
+    let currentDayIndex = 0;
+
+    const tabButtonsContainer = document.getElementById('tabButtonsContainer');
+    const tabContentsContainer = document.getElementById('tabContentsContainer');
+    const exportModal = document.getElementById('exportModal');
+    const closeExportModalBtn = document.getElementById('closeExportModalBtn');
+    const openExportModalBtn = document.getElementById('openExportModalBtn');
+    const markdownOutputText = document.getElementById('markdownOutputText');
+    const copyMdBtn = document.getElementById('copyMdBtn');
+    const downloadMdBtn = document.getElementById('downloadMdBtn');
+    const toastMsg = document.getElementById('toastMsg');
+    
+    // 主題模式控制
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('tainan_trip_theme', theme);
+        if (theme === 'dark') {
+            themeIcon.textContent = '🌙';
+            themeLabel.textContent = '夜間模式';
+        } else {
+            themeIcon.textContent = '☀️';
+            themeLabel.textContent = '明亮模式';
+        }
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    });
+
+    // 初始化主題
+    const savedTheme = localStorage.getItem('tainan_trip_theme') || 'light';
+    applyTheme(savedTheme);
+
+    function initUI() {
+        tabButtonsContainer.innerHTML = '';
+        tabContentsContainer.innerHTML = '';
+
+        itineraryData.forEach((day, dIdx) => {
+            // Tab 按鈕
+            const tabBtn = document.createElement('button');
+            tabBtn.className = `tab-btn ${dIdx === currentDayIndex ? 'active' : ''}`;
+            tabBtn.textContent = day.day_title.split(' ')[0];
+            tabBtn.title = day.day_title;
+            tabBtn.addEventListener('click', () => switchDay(dIdx));
+            tabButtonsContainer.appendChild(tabBtn);
+
+            // Tab 內容
+            const dayContent = document.createElement('div');
+            dayContent.className = `schedule-tab-content ${dIdx === currentDayIndex ? 'active' : ''}`;
+            dayContent.id = `content-${day.day_id}`;
+
+            const cardsList = document.createElement('div');
+            cardsList.className = 'cards-list';
+
+            day.items.forEach((item, itemIdx) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                // 時間顯示處理 (垂直滿高)
+                let timeDisplayHtml = '';
+                if (item.time) {
+                    timeDisplayHtml = `<div class="time-text">${item.time.replace('-', '<br>至<br>')}</div>`;
+                } else {
+                    timeDisplayHtml = `<div class="time-flex-label">接續行程<br>/ 彈性時段</div>`;
+                }
+
+                // Google Map 跳轉按鈕
+                let mapBtnHtml = '';
+                if (item.map_query && item.map_query.trim() !== '') {
+                    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.map_query)}`;
+                    mapBtnHtml = `<a href="${mapUrl}" target="_blank" class="map-jump-btn" title="在 Google 地圖開啟此地點">地圖導航 ↗</a>`;
+                }
+
+                // 伴手禮處理：僅在有特別指定時顯示
+                const souvenirHtml = (item.souvenir && item.souvenir.trim() !== '') 
+                    ? `<div class="info-row">
+                            <span class="info-label">伴手禮：</span>
+                            <div class="souvenir-tag-box">${item.souvenir}</div>
+                       </div>` 
+                    : '';
+
+                // 行程原定備註：僅在原本有寫的地方直接保留
+                const origNoteHtml = (item.orig_note && item.orig_note.trim() !== '') 
+                    ? `<div class="orig-note-box">
+                            <strong>行程備註：</strong>${item.orig_note}
+                       </div>` 
+                    : '';
+
+                card.innerHTML = `
+                    <div class="time-sidebar">
+                        ${timeDisplayHtml}
+                    </div>
+                    <div class="card-body">
+                        <div class="card-header-row">
+                            <div class="place-title">${item.title}</div>
+                            ${mapBtnHtml}
+                        </div>
+                        <div class="info-group">
+                            <div class="info-row">
+                                <span class="info-label">地點介紹：</span>
+                                <span class="info-val">${item.desc}</span>
+                            </div>
+                            ${souvenirHtml}
+                        </div>
+                        ${origNoteHtml}
+                        <div class="temp-note-row">
+                            <span class="temp-note-label">臨時筆記：</span>
+                            <input type="text" 
+                                   class="temp-note-input" 
+                                   placeholder="點此輸入自訂筆記..." 
+                                   value="${item.temp_note || ''}" 
+                                   data-day="${dIdx}" 
+                                   data-item="${itemIdx}">
+                        </div>
+                    </div>
+                `;
+                cardsList.appendChild(card);
+            });
+
+            dayContent.appendChild(cardsList);
+            tabContentsContainer.appendChild(dayContent);
+        });
+
+        // 監聽臨時筆記輸入
+        document.querySelectorAll('.temp-note-input').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const dIdx = parseInt(e.target.dataset.day, 10);
+                const iIdx = parseInt(e.target.dataset.item, 10);
+                itineraryData[dIdx].items[iIdx].temp_note = e.target.value.trim();
+            });
+        });
+    }
+
+    function switchDay(index) {
+        currentDayIndex = index;
+        document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+            btn.classList.toggle('active', i === index);
+        });
+        document.querySelectorAll('.schedule-tab-content').forEach((content, i) => {
+            content.classList.toggle('active', i === index);
+        });
+    }
+
+    // 產生純文字階層式筆記 Markdown（無 Emoji、無營業時間）
+    function generateHierarchicalMarkdown() {
+        let md = `# 2026 台南行四天三夜行程安排\n\n`;
+
+        itineraryData.forEach(day => {
+            md += `## ${day.day_title}\n`;
+
+            day.items.forEach(item => {
+                const timePrefix = item.time ? `[${item.time}] ` : '';
+                md += `- ${timePrefix}${item.title}\n`;
+                
+                if (item.desc) {
+                    md += `  - 地點介紹：${item.desc}\n`;
+                }
+                if (item.souvenir && item.souvenir.trim() !== '') {
+                    md += `  - 伴手禮：${item.souvenir}\n`;
+                }
+                if (item.orig_note && item.orig_note.trim() !== '') {
+                    md += `  - 行程備註：${item.orig_note}\n`;
+                }
+                if (item.temp_note && item.temp_note.trim() !== '') {
+                    md += `  - 臨時筆記：${item.temp_note}\n`;
+                }
+            });
+            md += `\n`;
+        });
+
+        return md;
+    }
+
+    openExportModalBtn.addEventListener('click', () => {
+        const mdText = generateHierarchicalMarkdown();
+        markdownOutputText.value = mdText;
+        exportModal.classList.add('open');
+    });
+
+    closeExportModalBtn.addEventListener('click', () => {
+        exportModal.classList.remove('open');
+    });
+
+    exportModal.addEventListener('click', (e) => {
+        if (e.target === exportModal) {
+            exportModal.classList.remove('open');
+        }
+    });
+
+    copyMdBtn.addEventListener('click', () => {
+        markdownOutputText.select();
+        navigator.clipboard.writeText(markdownOutputText.value).then(() => {
+            showToast("已成功複製階層式 Markdown 筆記！");
+        }).catch(() => {
+            document.execCommand('copy');
+            showToast("已成功複製階層式 Markdown 筆記！");
+        });
+    });
+
+    downloadMdBtn.addEventListener('click', () => {
+        const mdContent = markdownOutputText.value;
+        const blob = new Blob([mdContent], { type: 'text/markdown;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = '2026台南行行程筆記.md';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast("已下載 .md 檔案！");
+    });
+
+    function showToast(msg) {
+        toastMsg.textContent = msg;
+        toastMsg.classList.add('show');
+        setTimeout(() => {
+            toastMsg.classList.remove('show');
+        }, 2200);
+    }
+
+    initUI();
+</script>
 
 </body>
 </html>
